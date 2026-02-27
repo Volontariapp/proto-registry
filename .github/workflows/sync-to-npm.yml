@@ -1,0 +1,13 @@
+name: Sync Protobuf to NPM
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "proto/**.proto"
+
+jobs:
+  sync:
+    uses: Volontariapp/ci-tools/.github/workflows/sync-proto-npm.yml@main
+    secrets:
+      ORG_REPO_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
