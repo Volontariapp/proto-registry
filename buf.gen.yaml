@@ -1,0 +1,9 @@
+version: v2
+plugins:
+  - local: protoc-gen-ts_proto
+    out: gen/ts
+    opt:
+      - outputServices=generic-definitions
+      - outputEncodeMethods=false
+      - outputJsonMethods=false
+      - outputClientImpl=false
