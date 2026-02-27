@@ -2,13 +2,13 @@ syntax = "proto3";
 
 package volontariapp.post.v1;
 
-import "common/pagination.proto";
+import "volontariapp/common/v1/pagination.proto";
 
 service PostService {
-  rpc GetPost (GetPostRequest) returns (PostResponse) {}
+  rpc GetPost (GetPostRequest) returns (GetPostResponse) {}
   rpc ListPosts (ListPostsRequest) returns (ListPostsResponse) {}
-  rpc CreatePost (CreatePostRequest) returns (PostResponse) {}
-  rpc UpdatePost (UpdatePostRequest) returns (PostResponse) {}
+  rpc CreatePost (CreatePostRequest) returns (CreatePostResponse) {}
+  rpc UpdatePost (UpdatePostRequest) returns (UpdatePostResponse) {}
   rpc DeletePost (DeletePostRequest) returns (DeletePostResponse) {}
 }
 
@@ -23,7 +23,15 @@ message GetPostRequest {
   string id = 1;
 }
 
-message PostResponse {
+message GetPostResponse {
+  Post post = 1;
+}
+
+message CreatePostResponse {
+  Post post = 1;
+}
+
+message UpdatePostResponse {
   Post post = 1;
 }
 

@@ -3,6 +3,6 @@ modules:
   - path: proto
 lint:
   use:
-    - DEFAULT
+    - STANDARD
   except:
     - PACKAGE_VERSION_SUFFIX

@@ -2,13 +2,13 @@ syntax = "proto3";
 
 package volontariapp.user.v1;
 
-import "common/pagination.proto";
+import "volontariapp/common/v1/pagination.proto";
 
 service UserService {
-  rpc GetUser (GetUserRequest) returns (UserResponse) {}
+  rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
   rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {}
-  rpc CreateUser (CreateUserRequest) returns (UserResponse) {}
-  rpc UpdateUser (UpdateUserRequest) returns (UserResponse) {}
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {}
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {}
   rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {}
 }
 
@@ -24,7 +24,15 @@ message GetUserRequest {
   string id = 1;
 }
 
-message UserResponse {
+message GetUserResponse {
+  User user = 1;
+}
+
+message CreateUserResponse {
+  User user = 1;
+}
+
+message UpdateUserResponse {
   User user = 1;
 }
 

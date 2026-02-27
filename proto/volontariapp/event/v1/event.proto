@@ -2,14 +2,14 @@ syntax = "proto3";
 
 package volontariapp.event.v1;
 
-import "common/pagination.proto";
+import "volontariapp/common/v1/pagination.proto";
 import "google/protobuf/timestamp.proto";
 
 service EventService {
-  rpc GetEvent (GetEventRequest) returns (EventResponse) {}
+  rpc GetEvent (GetEventRequest) returns (GetEventResponse) {}
   rpc ListEvents (ListEventsRequest) returns (ListEventsResponse) {}
-  rpc CreateEvent (CreateEventRequest) returns (EventResponse) {}
-  rpc UpdateEvent (UpdateEventRequest) returns (EventResponse) {}
+  rpc CreateEvent (CreateEventRequest) returns (CreateEventResponse) {}
+  rpc UpdateEvent (UpdateEventRequest) returns (UpdateEventResponse) {}
   rpc DeleteEvent (DeleteEventRequest) returns (DeleteEventResponse) {}
 }
 
@@ -27,7 +27,15 @@ message GetEventRequest {
   string id = 1;
 }
 
-message EventResponse {
+message GetEventResponse {
+  Event event = 1;
+}
+
+message CreateEventResponse {
+  Event event = 1;
+}
+
+message UpdateEventResponse {
   Event event = 1;
 }
 
