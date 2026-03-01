@@ -70,3 +70,4 @@ message DeleteUserResponse {
   bool success = 1;
 }
 // chore: trigger CI
+// chore: trigger CI after index reset
