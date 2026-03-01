@@ -1,0 +1,10 @@
+{
+  "protoc": {
+    "options": ["--proto_path=${workspaceFolder}/proto"]
+  },
+  "[proto3]": {
+    "editor.defaultFormatter": "bufbuild.vscode-buf"
+  },
+  "buf.lint.enable": true,
+  "clang-format.style": "{ BasedOnStyle: Google, ColumnLimit: 0 }"
+}
