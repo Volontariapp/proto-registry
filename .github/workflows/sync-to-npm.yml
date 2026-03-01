@@ -4,27 +4,11 @@ on:
     branches:
       - main
   pull_request:
-    paths:
-      - "proto/**.proto"
   workflow_dispatch:
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    if: >-
-      github.event_name == 'pull_request' ||
-      github.event_name == 'workflow_dispatch' ||
-      contains(join(github.event.commits.*.modified, ','), '.proto') ||
-      contains(join(github.event.commits.*.added, ','), '.proto') ||
-      contains(join(github.event.commits.*.removed, ','), '.proto')
-    steps:
-      - uses: actions/checkout@v4
-      - run: npm install -g @bufbuild/buf
-      - run: buf lint
-
   check-proto-changes:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
     outputs:
       has_changes: ${{ steps.check.outputs.has_changes }}
     steps:
@@ -33,20 +17,33 @@ jobs:
           fetch-depth: 2
       - id: check
         run: |
-          CHANGED=$(git diff --name-only HEAD~1 HEAD -- 'proto/**.proto' 2>/dev/null || true)
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- 'proto/**.proto' 2>/dev/null || true)
+          else
+            CHANGED=$(git diff --name-only HEAD~1 HEAD -- 'proto/**.proto' 2>/dev/null || true)
+          fi
           if [ -n "$CHANGED" ]; then
             echo "has_changes=true" >> $GITHUB_OUTPUT
             echo "Proto files changed: $CHANGED"
           else
             echo "has_changes=false" >> $GITHUB_OUTPUT
-            echo "No proto files changed."
+            echo "No proto files changed. Skipping."
           fi
 
+  lint:
+    needs: check-proto-changes
+    if: needs.check-proto-changes.outputs.has_changes == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @bufbuild/buf
+      - run: buf lint
+
   sync:
+    needs: [check-proto-changes, lint]
     if: >-
       github.event_name != 'pull_request' &&
       needs.check-proto-changes.outputs.has_changes == 'true'
-    needs: [lint, check-proto-changes]
     uses: Volontariapp/ci-tools/.github/workflows/sync-proto-npm.yml@main
     secrets:
       ORG_REPO_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
