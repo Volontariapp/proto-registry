@@ -5,10 +5,22 @@ on:
       - main
     paths:
       - "proto/**.proto"
+  pull_request:
+    paths:
+      - "proto/**.proto"
   workflow_dispatch:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @bufbuild/buf
+      - run: buf lint
+
   sync:
+    if: github.event_name != 'pull_request'
+    needs: lint
     uses: Volontariapp/ci-tools/.github/workflows/sync-proto-npm.yml@main
     secrets:
       ORG_REPO_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
