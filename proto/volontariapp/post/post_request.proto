@@ -1,15 +1,15 @@
 syntax = "proto3";
 
-package volontariapp.post.v1;
+package volontariapp.post;
 
-import "volontariapp/common/v1/pagination.proto";
+import "volontariapp/common/pagination.proto";
 
 message GetPostRequest {
   string id = 1;
 }
 
 message ListPostsRequest {
-  volontariapp.common.v1.PaginationRequest pagination = 1;
+  volontariapp.common.PaginationRequest pagination = 1;
   optional string author_id = 2;
 }
 

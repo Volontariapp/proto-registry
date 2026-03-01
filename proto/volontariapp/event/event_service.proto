@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package volontariapp.event.v1;
+package volontariapp.event;
 
-import "volontariapp/event/v1/event_request.proto";
-import "volontariapp/event/v1/event_response.proto";
+import "volontariapp/event/event_request.proto";
+import "volontariapp/event/event_response.proto";
 
 service EventService {
   rpc GetEvent (GetEventRequest) returns (GetEventResponse) {}

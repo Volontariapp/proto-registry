@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package volontariapp.event.v1;
+package volontariapp.event;
 
-import "volontariapp/common/v1/pagination.proto";
+import "volontariapp/common/pagination.proto";
 import "google/protobuf/timestamp.proto";
 
 message GetEventRequest {
@@ -10,7 +10,7 @@ message GetEventRequest {
 }
 
 message ListEventsRequest {
-  volontariapp.common.v1.PaginationRequest pagination = 1;
+  volontariapp.common.PaginationRequest pagination = 1;
 }
 
 message CreateEventRequest {

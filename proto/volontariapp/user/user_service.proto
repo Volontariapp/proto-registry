@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package volontariapp.user.v1;
+package volontariapp.user;
 
-import "volontariapp/user/v1/user_request.proto";
-import "volontariapp/user/v1/user_response.proto";
+import "volontariapp/user/user_request.proto";
+import "volontariapp/user/user_response.proto";
 
 service UserService {
   rpc GetUser (GetUserRequest) returns (GetUserResponse) {}

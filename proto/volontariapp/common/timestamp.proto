@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package volontariapp.common.v1;
+package volontariapp.common;
 
 import "google/protobuf/timestamp.proto";
 

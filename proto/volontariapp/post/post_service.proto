@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package volontariapp.post.v1;
+package volontariapp.post;
 
-import "volontariapp/post/v1/post_request.proto";
-import "volontariapp/post/v1/post_response.proto";
+import "volontariapp/post/post_request.proto";
+import "volontariapp/post/post_response.proto";
 
 service PostService {
   rpc GetPost (GetPostRequest) returns (GetPostResponse) {}
