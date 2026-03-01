@@ -4,6 +4,7 @@ package volontariapp.event;
 
 import "volontariapp/event/event.requests.proto";
 import "volontariapp/event/event.responses.proto";
+// trigger CI
 
 service EventService {
   rpc GetEvent (GetEventRequest) returns (GetEventResponse) {}

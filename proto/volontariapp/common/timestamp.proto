@@ -3,6 +3,7 @@ syntax = "proto3";
 package volontariapp.common;
 
 import "google/protobuf/timestamp.proto";
+// trigger CI
 
 message DateRange {
   google.protobuf.Timestamp start = 1;

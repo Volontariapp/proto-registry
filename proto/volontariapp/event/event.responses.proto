@@ -5,6 +5,9 @@ package volontariapp.event;
 import "volontariapp/common/pagination.proto";
 import "volontariapp/event/event.proto";
 
+// trigger CI
+
+
 message GetEventResponse {
   Event event = 1;
 }

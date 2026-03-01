@@ -4,6 +4,8 @@ package volontariapp.event;
 
 import "google/protobuf/timestamp.proto";
 
+// trigger CI
+
 message Event {
   string id = 1;
   string title = 2;

@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package volontariapp.post;
+// trigger CI
 
 message Post {
   string id = 1;
