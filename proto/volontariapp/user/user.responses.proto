@@ -4,7 +4,6 @@ package volontariapp.user;
 
 import "volontariapp/common/pagination.proto";
 import "volontariapp/user/user.proto";
-// trigger CI
 
 message GetUserResponse {
   User user = 1;

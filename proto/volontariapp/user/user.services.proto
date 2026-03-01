@@ -4,7 +4,6 @@ package volontariapp.user;
 
 import "volontariapp/user/user.requests.proto";
 import "volontariapp/user/user.responses.proto";
-// trigger CI
 
 service UserService {
   rpc GetUser (GetUserRequest) returns (GetUserResponse) {}

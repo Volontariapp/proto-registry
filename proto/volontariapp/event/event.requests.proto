@@ -5,7 +5,7 @@ package volontariapp.event;
 import "volontariapp/common/pagination.proto";
 import "google/protobuf/timestamp.proto";
 
-// trigger CI
+
 
 
 message GetEventRequest {

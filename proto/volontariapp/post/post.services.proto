@@ -5,7 +5,7 @@ package volontariapp.post;
 import "volontariapp/post/post.requests.proto";
 import "volontariapp/post/post.responses.proto";
 
-// trigger CI
+
 
 service PostService {
   rpc GetPost (GetPostRequest) returns (GetPostResponse) {}

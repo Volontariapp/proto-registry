@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package volontariapp.common;
-// trigger CI
+
 
 message PaginationRequest {
   int32 page = 1;

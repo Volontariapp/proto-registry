@@ -3,7 +3,7 @@ syntax = "proto3";
 package volontariapp.user;
 
 import "volontariapp/common/pagination.proto";
-// trigger CI
+
 
 message GetUserRequest {
   string id = 1;

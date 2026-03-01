@@ -6,3 +6,4 @@ lint:
     - STANDARD
   except:
     - PACKAGE_VERSION_SUFFIX
+    - FILE_LOWER_SNAKE_CASE
