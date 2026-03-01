@@ -5,65 +5,95 @@ Central repository for all `.proto` files defining the gRPC contracts between Vo
 ## 📂 Structure
 
 ```
-proto/
-├── common/              # Shared messages used across services
-│   ├── pagination.proto
-│   └── timestamp.proto
-├── user/                # ms-user service definitions
-│   └── user.proto
-├── event/               # ms-event service definitions
-│   └── event.proto
-└── post/                # ms-post service definitions
-    └── post.proto
+proto/volontariapp/
+├── common/
+│   ├── pagination.proto        # PaginationRequest / PaginationResponse
+│   └── timestamp.proto         # DateRange (wraps google.protobuf.Timestamp)
+├── event/
+│   ├── event.proto             # Event entity
+│   ├── event.requests.proto    # Get / List / Create / Update / Delete requests
+│   ├── event.responses.proto   # Get / List / Create / Update / Delete responses
+│   └── event.services.proto    # EventService RPC definitions
+├── post/
+│   ├── post.proto              # Post entity
+│   ├── post.requests.proto
+│   ├── post.responses.proto
+│   └── post.services.proto     # PostService RPC definitions
+└── user/
+    ├── user.proto              # User entity
+    ├── user.requests.proto
+    ├── user.responses.proto
+    └── user.services.proto     # UserService RPC definitions
 ```
 
 ## 🎯 Conventions
 
 ### Package Naming
 
-All proto packages follow the pattern: `volontariapp.<domain>.v1`
+All proto packages follow the pattern: `volontariapp.<domain>`
 
 ```protobuf
-package volontariapp.user.v1;
+package volontariapp.user;
 ```
 
 ### File Organization
 
-- **One service per file** — each `.proto` file defines a single gRPC service.
-- **`common/`** — shared message types (pagination, timestamps, etc.) imported by other protos.
-- **Versioning** — all services are namespaced under `v1`. When breaking changes are introduced, create a `v2` directory alongside `v1`.
+Each domain has **4 files** following dot notation:
 
-### Naming Conventions (Proto Style Guide)
+| File                   | Contains                                 |
+| ---------------------- | ---------------------------------------- |
+| `<domain>.proto`       | Entity message (`User`, `Event`, `Post`) |
+| `<domain>.requests.proto`  | Request messages (`GetUserRequest`, etc.)  |
+| `<domain>.responses.proto` | Response messages (`GetUserResponse`, etc.) |
+| `<domain>.services.proto`  | gRPC `service` definition with RPCs       |
+
+### Naming Conventions
 
 | Element | Convention                              | Example                             |
 | ------- | --------------------------------------- | ----------------------------------- |
-| Package | `lowercase.dot.separated`               | `volontariapp.user.v1`              |
+| Package | `lowercase.dot.separated`               | `volontariapp.user`                 |
 | Service | `PascalCase` + `Service` suffix         | `UserService`                       |
 | RPC     | `PascalCase` verb                       | `GetUser`, `CreateUser`             |
 | Message | `PascalCase`                            | `UserResponse`, `CreateUserRequest` |
 | Field   | `snake_case`                            | `first_name`, `created_at`          |
 | Enum    | `PascalCase` name, `UPPER_SNAKE` values | `UserRole`, `USER_ROLE_ADMIN`       |
 
-## 🔗 Usage
+## ⚙️ Code Generation
 
-This repository is consumed as a **Git submodule** by each service:
+### buf.gen.yaml
 
-```bash
-git submodule add git@github.com:Volontariapp/proto-registry.git proto-registry
-```
+TypeScript types are generated using [ts-proto](https://github.com/stephenh/ts-proto) with the following options:
 
-Services reference the `.proto` files using the submodule path:
+| Option                    | Purpose                                             |
+| ------------------------- | --------------------------------------------------- |
+| `nestJs=true`             | Generates NestJS-compatible service interfaces      |
+| `useDate=true`            | Maps `google.protobuf.Timestamp` to native `Date`   |
+| `importSuffix=.js`        | ESM-compatible imports for `nodenext` resolution     |
+| `exportCommonSymbols=false`| Prevents duplicate `protobufPackage` export conflicts |
+| `outputClientImpl=false`  | No gRPC client stubs (services handle this)          |
 
-```typescript
-// NestJS gRPC client example
-{
-  transport: Transport.GRPC,
-  options: {
-    package: 'volontariapp.user.v1',
-    protoPath: join(__dirname, '../../proto-registry/proto/user/user.proto'),
-  },
-}
-```
+### Generated output
+
+Running `buf generate` produces TypeScript files in `gen/ts/` with:
+- Entity interfaces (`Event`, `Post`, `User`)
+- Request/Response interfaces
+- NestJS service interfaces (`EventServiceClient`, `EventServiceController`)
+- NestJS decorator functions (`EventServiceControllerMethods()`)
+- Service name constants (`EVENT_SERVICE_NAME`)
+
+## 🔄 CI/CD Pipeline
+
+### On Pull Request
+1. **check-proto-changes** — detects if any `.proto` files were modified
+2. **buf lint** — runs only if proto files changed
+
+### On Push to Main
+1. **check-proto-changes** — detects if any `.proto` files were modified
+2. **buf lint** — runs only if proto files changed
+3. **sync** — generates TypeScript types and creates a PR on `npm-packages` with updated `@volontariapp/contracts`
+
+### Manually
+Use `workflow_dispatch` to trigger the full pipeline.
 
 ## 🛠️ Development
 
@@ -73,8 +103,24 @@ Services reference the `.proto` files using the submodule path:
 buf lint
 ```
 
+### Generate TypeScript locally
+
+```bash
+buf generate
+```
+
 ### Breaking Change Detection
 
 ```bash
 buf breaking --against '.git#branch=main'
+```
+
+## 🔗 Usage
+
+This repository is consumed as a **Git submodule** by each service and by `npm-packages`.
+
+The generated TypeScript types are published as `@volontariapp/contracts` via the automated sync pipeline.
+
+```typescript
+import { User, CreateUserRequest, UserServiceController } from '@volontariapp/contracts';
 ```
