@@ -3,7 +3,10 @@ plugins:
   - local: protoc-gen-ts_proto
     out: gen/ts
     opt:
-      - outputServices=generic-definitions
+      - outputServices=false
+      - outputClientImpl=false
       - outputEncodeMethods=false
       - outputJsonMethods=false
-      - outputClientImpl=false
+      - importSuffix=.js
+      - exportCommonSymbols=false
+      - useDate=true
