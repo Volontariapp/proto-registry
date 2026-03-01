@@ -1,4 +1,5 @@
 syntax = "proto3";
+// trigger ci
 
 package volontariapp.event.v1;
 
