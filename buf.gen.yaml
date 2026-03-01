@@ -10,3 +10,4 @@ plugins:
       - importSuffix=.js
       - exportCommonSymbols=false
       - useDate=true
+      - useMinimalAdapter=true
