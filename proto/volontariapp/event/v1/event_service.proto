@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package volontariapp.event.v1;
+
+import "volontariapp/event/v1/event_request.proto";
+import "volontariapp/event/v1/event_response.proto";
+
+service EventService {
+  rpc GetEvent (GetEventRequest) returns (GetEventResponse) {}
+  rpc ListEvents (ListEventsRequest) returns (ListEventsResponse) {}
+  rpc CreateEvent (CreateEventRequest) returns (CreateEventResponse) {}
+  rpc UpdateEvent (UpdateEventRequest) returns (UpdateEventResponse) {}
+  rpc DeleteEvent (DeleteEventRequest) returns (DeleteEventResponse) {}
+}

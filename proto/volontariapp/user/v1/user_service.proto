@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package volontariapp.user.v1;
+
+import "volontariapp/user/v1/user_request.proto";
+import "volontariapp/user/v1/user_response.proto";
+
+service UserService {
+  rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
+  rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {}
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {}
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {}
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {}
+}

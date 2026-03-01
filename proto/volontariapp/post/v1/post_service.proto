@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package volontariapp.post.v1;
+
+import "volontariapp/post/v1/post_request.proto";
+import "volontariapp/post/v1/post_response.proto";
+
+service PostService {
+  rpc GetPost (GetPostRequest) returns (GetPostResponse) {}
+  rpc ListPosts (ListPostsRequest) returns (ListPostsResponse) {}
+  rpc CreatePost (CreatePostRequest) returns (CreatePostResponse) {}
+  rpc UpdatePost (UpdatePostRequest) returns (UpdatePostResponse) {}
+  rpc DeletePost (DeletePostRequest) returns (DeletePostResponse) {}
+}

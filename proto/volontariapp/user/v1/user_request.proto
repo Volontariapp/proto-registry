@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package volontariapp.user.v1;
+
+import "volontariapp/common/v1/pagination.proto";
+
+message GetUserRequest {
+  string id = 1;
+}
+
+message ListUsersRequest {
+  volontariapp.common.v1.PaginationRequest pagination = 1;
+}
+
+message CreateUserRequest {
+  string email = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string password = 4;
+  string role = 5;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  optional string email = 2;
+  optional string first_name = 3;
+  optional string last_name = 4;
+  optional string role = 5;
+}
+
+message DeleteUserRequest {
+  string id = 1;
+}
