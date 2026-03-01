@@ -3,7 +3,7 @@ plugins:
   - local: protoc-gen-ts_proto
     out: gen/ts
     opt:
-      - outputServices=false
+      - nestJs=true
       - outputClientImpl=false
       - outputEncodeMethods=false
       - outputJsonMethods=false
