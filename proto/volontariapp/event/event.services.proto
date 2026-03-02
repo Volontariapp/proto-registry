@@ -7,9 +7,9 @@ import "volontariapp/event/event.responses.proto";
 
 
 service EventService {
-  rpc GetEvent (GetEventRequest) returns (GetEventResponse) {}
-  rpc ListEvents (ListEventsRequest) returns (ListEventsResponse) {}
-  rpc CreateEvent (CreateEventRequest) returns (CreateEventResponse) {}
-  rpc UpdateEvent (UpdateEventRequest) returns (UpdateEventResponse) {}
-  rpc DeleteEvent (DeleteEventRequest) returns (DeleteEventResponse) {}
+  rpc GetEvent (EventQuery) returns (GetEventResponse) {}
+  rpc ListEvents (ListEventsQuery) returns (ListEventsResponse) {}
+  rpc CreateEvent (CreateEventCommand) returns (CreateEventResponse) {}
+  rpc UpdateEvent (UpdateEventCommand) returns (UpdateEventResponse) {}
+  rpc DeleteEvent (DeleteEventCommand) returns (DeleteEventResponse) {}
 }
