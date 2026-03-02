@@ -6,18 +6,15 @@ import "volontariapp/common/pagination.proto";
 import "google/protobuf/timestamp.proto";
 
 
-
-
-message GetEventRequest {
+message EventQuery {
   string id = 1;
-  string test = 2;
 }
 
-message ListEventsRequest {
+message ListEventsQuery {
   volontariapp.common.PaginationRequest pagination = 1;
 }
 
-message CreateEventRequest {
+message CreateEventCommand {
   string title = 1;
   string description = 2;
   google.protobuf.Timestamp start_date = 3;
@@ -26,7 +23,7 @@ message CreateEventRequest {
   string organizer_id = 6;
 }
 
-message UpdateEventRequest {
+message UpdateEventCommand {
   string id = 1;
   optional string title = 2;
   optional string description = 3;
@@ -35,6 +32,6 @@ message UpdateEventRequest {
   optional string location = 6;
 }
 
-message DeleteEventRequest {
+message DeleteEventCommand {
   string id = 1;
 }

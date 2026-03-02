@@ -5,27 +5,27 @@ package volontariapp.post;
 import "volontariapp/common/pagination.proto";
 
 
-message GetPostRequest {
+message PostQuery {
   string id = 1;
 }
 
-message ListPostsRequest {
+message ListPostQuery {
   volontariapp.common.PaginationRequest pagination = 1;
   optional string author_id = 2;
 }
 
-message CreatePostRequest {
+message CreatePostCommand {
   string author_id = 1;
   string title = 2;
   string content = 3;
 }
 
-message UpdatePostRequest {
+message UpdatePostCommand {
   string id = 1;
   optional string title = 2;
   optional string content = 3;
 }
 
-message DeletePostRequest {
+message DeletePostCommand {
   string id = 1;
 }
