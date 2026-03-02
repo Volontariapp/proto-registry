@@ -3,6 +3,7 @@ syntax = "proto3";
 package volontariapp.event;
 
 import "google/protobuf/timestamp.proto";
+// trigger Ci
 
 message CreateEventCommand {
   string title = 1;
