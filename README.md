@@ -11,17 +11,20 @@ proto/volontariapp/
 │   └── timestamp.proto         # DateRange (wraps google.protobuf.Timestamp)
 ├── event/
 │   ├── event.proto             # Event entity
-│   ├── event.requests.proto    # Get / List / Create / Update / Delete requests
-│   ├── event.responses.proto   # Get / List / Create / Update / Delete responses
+│   ├── event.command.proto     # Write operations (CreateEventRequest, etc.)
+│   ├── event.query.proto       # Read operations (GetEventRequest, etc.)
+│   ├── event.responses.proto   # Shared response messages
 │   └── event.services.proto    # EventService RPC definitions
 ├── post/
 │   ├── post.proto              # Post entity
-│   ├── post.requests.proto
+│   ├── post.command.proto
+│   ├── post.query.proto
 │   ├── post.responses.proto
 │   └── post.services.proto     # PostService RPC definitions
 └── user/
     ├── user.proto              # User entity
-    ├── user.requests.proto
+    ├── user.command.proto
+    ├── user.query.proto
     ├── user.responses.proto
     └── user.services.proto     # UserService RPC definitions
 ```
@@ -36,14 +39,19 @@ All proto packages follow the pattern: `volontariapp.<domain>`
 package volontariapp.user;
 ```
 
+### CQRS Pattern
+
+Each domain is organized following the **Command Query Responsibility Segregation (CQRS)** pattern to decouple read and write operations.
+
 ### File Organization
 
-Each domain has **4 files** following dot notation:
+Each domain has **5 files** following dot notation:
 
 | File                       | Contains                                    |
 | -------------------------- | ------------------------------------------- |
 | `<domain>.proto`           | Entity message (`User`, `Event`, `Post`)    |
-| `<domain>.requests.proto`  | Request messages (`GetUserRequest`, etc.)   |
+| `<domain>.command.proto`   | Command requests (Create, Update, Delete)   |
+| `<domain>.query.proto`     | Query requests (Get, List, Search)          |
 | `<domain>.responses.proto` | Response messages (`GetUserResponse`, etc.) |
 | `<domain>.services.proto`  | gRPC `service` definition with RPCs         |
 
