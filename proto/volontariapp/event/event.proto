@@ -4,8 +4,6 @@ package volontariapp.event;
 
 import "google/protobuf/timestamp.proto";
 
-
-
 message Event {
   string id = 1;
   string title = 2;

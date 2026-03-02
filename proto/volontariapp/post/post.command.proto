@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package volontariapp.post;
 
-// trigger Ci
-
 message CreatePostCommand {
   string author_id = 1;
   string title = 2;
