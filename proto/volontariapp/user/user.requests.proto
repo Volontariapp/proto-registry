@@ -5,15 +5,15 @@ package volontariapp.user;
 import "volontariapp/common/pagination.proto";
 
 
-message GetUserRequest {
+message UserQuery {
   string id = 1;
 }
 
-message ListUsersRequest {
+message ListUsersQuery {
   volontariapp.common.PaginationRequest pagination = 1;
 }
 
-message CreateUserRequest {
+message CreateUserCommand {
   string email = 1;
   string first_name = 2;
   string last_name = 3;
@@ -21,7 +21,7 @@ message CreateUserRequest {
   string role = 5;
 }
 
-message UpdateUserRequest {
+message UpdateUserCommand {
   string id = 1;
   optional string email = 2;
   optional string first_name = 3;
@@ -29,6 +29,6 @@ message UpdateUserRequest {
   optional string role = 5;
 }
 
-message DeleteUserRequest {
+message DeleteUserCommand {
   string id = 1;
 }
