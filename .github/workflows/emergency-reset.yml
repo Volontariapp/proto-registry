@@ -2,7 +2,9 @@ name: Trigger Emergency Reset
 
 on:
   pull_request:
+    types: [labeled]
     branches:
+      - main
       - "debug/*"
 
 jobs:
