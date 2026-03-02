@@ -40,12 +40,12 @@ package volontariapp.user;
 
 Each domain has **4 files** following dot notation:
 
-| File                   | Contains                                 |
-| ---------------------- | ---------------------------------------- |
-| `<domain>.proto`       | Entity message (`User`, `Event`, `Post`) |
-| `<domain>.requests.proto`  | Request messages (`GetUserRequest`, etc.)  |
+| File                       | Contains                                    |
+| -------------------------- | ------------------------------------------- |
+| `<domain>.proto`           | Entity message (`User`, `Event`, `Post`)    |
+| `<domain>.requests.proto`  | Request messages (`GetUserRequest`, etc.)   |
 | `<domain>.responses.proto` | Response messages (`GetUserResponse`, etc.) |
-| `<domain>.services.proto`  | gRPC `service` definition with RPCs       |
+| `<domain>.services.proto`  | gRPC `service` definition with RPCs         |
 
 ### Naming Conventions
 
@@ -64,17 +64,18 @@ Each domain has **4 files** following dot notation:
 
 TypeScript types are generated using [ts-proto](https://github.com/stephenh/ts-proto) with the following options:
 
-| Option                    | Purpose                                             |
-| ------------------------- | --------------------------------------------------- |
-| `nestJs=true`             | Generates NestJS-compatible service interfaces      |
-| `useDate=true`            | Maps `google.protobuf.Timestamp` to native `Date`   |
-| `importSuffix=.js`        | ESM-compatible imports for `nodenext` resolution     |
-| `exportCommonSymbols=false`| Prevents duplicate `protobufPackage` export conflicts |
-| `outputClientImpl=false`  | No gRPC client stubs (services handle this)          |
+| Option                      | Purpose                                               |
+| --------------------------- | ----------------------------------------------------- |
+| `nestJs=true`               | Generates NestJS-compatible service interfaces        |
+| `useDate=true`              | Maps `google.protobuf.Timestamp` to native `Date`     |
+| `importSuffix=.js`          | ESM-compatible imports for `nodenext` resolution      |
+| `exportCommonSymbols=false` | Prevents duplicate `protobufPackage` export conflicts |
+| `outputClientImpl=false`    | No gRPC client stubs (services handle this)           |
 
 ### Generated output
 
 Running `buf generate` produces TypeScript files in `gen/ts/` with:
+
 - Entity interfaces (`Event`, `Post`, `User`)
 - Request/Response interfaces
 - NestJS service interfaces (`EventServiceClient`, `EventServiceController`)
@@ -84,16 +85,32 @@ Running `buf generate` produces TypeScript files in `gen/ts/` with:
 ## 🔄 CI/CD Pipeline
 
 ### On Pull Request
+
 1. **check-proto-changes** — detects if any `.proto` files were modified
 2. **buf lint** — runs only if proto files changed
 
 ### On Push to Main
+
 1. **check-proto-changes** — detects if any `.proto` files were modified
 2. **buf lint** — runs only if proto files changed
 3. **sync** — generates TypeScript types and creates a PR on `npm-packages` with updated `@volontariapp/contracts`
 
-### Manually
-Use `workflow_dispatch` to trigger the full pipeline.
+### 🚨 Emergency Reset
+
+If the automated sync fails or if the `npm-packages` repository gets out of sync, you can trigger a full recovery:
+
+1. Create a PR from a branch starting with `debug/` (e.g., `debug/fix-sync`) targeting `main`.
+2. Add the `reset` label to the PR.
+3. This triggers the **Emergency Reset Proto Sync** workflow, which:
+   - Performs a full `buf generate`.
+   - Fixes ESM imports for `protobufjs`.
+   - Forces a clean sync of all `.proto` files to the contracts package.
+   - Performs a clean sync of all domain TypeScript types.
+   - Creates a fresh PR on `npm-packages` to restore consistency.
+
+### Manual Trigger
+
+Use `workflow_dispatch` on the GitHub Actions tab to trigger the standard sync pipeline manually.
 
 ## 🛠️ Development
 
@@ -122,5 +139,9 @@ This repository is consumed as a **Git submodule** by each service and by `npm-p
 The generated TypeScript types are published as `@volontariapp/contracts` via the automated sync pipeline.
 
 ```typescript
-import { User, CreateUserRequest, UserServiceController } from '@volontariapp/contracts';
+import {
+  User,
+  CreateUserRequest,
+  UserServiceController,
+} from "@volontariapp/contracts";
 ```
