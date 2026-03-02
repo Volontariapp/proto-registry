@@ -1,0 +1,17 @@
+name: Trigger Emergency Reset
+
+on:
+  pull_request:
+    types: [labeled]
+    branches:
+      - "debug/*"
+
+jobs:
+  call-emergency-reset:
+    if: github.event.label.name == 'reset'
+    uses: Volontariapp/ci-tools/.github/workflows/emergency-reset-proto.yml@main
+    with:
+      proto_repository: "Volontariapp/proto-registry"
+      npm_repository: "Volontariapp/npm-packages"
+    secrets:
+      ORG_REPO_TOKEN: ${{ secrets.ORG_REPO_TOKEN }}
