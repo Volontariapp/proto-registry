@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package volontariapp.event;
 
-import "volontariapp/event/event.requests.proto";
+import "volontariapp/event/event.query.proto";
+import "volontariapp/event/event.command.proto";
 import "volontariapp/event/event.responses.proto";
 
 

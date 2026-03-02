@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package volontariapp.post;
 
-import "volontariapp/post/post.requests.proto";
+import "volontariapp/post/post.query.proto";
+import "volontariapp/post/post.command.proto";
 import "volontariapp/post/post.responses.proto";
 
 

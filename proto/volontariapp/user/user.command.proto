@@ -2,17 +2,6 @@ syntax = "proto3";
 
 package volontariapp.user;
 
-import "volontariapp/common/pagination.proto";
-
-
-message UserQuery {
-  string id = 1;
-}
-
-message ListUsersQuery {
-  volontariapp.common.PaginationRequest pagination = 1;
-}
-
 message CreateUserCommand {
   string email = 1;
   string first_name = 2;
