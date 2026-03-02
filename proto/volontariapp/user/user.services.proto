@@ -6,9 +6,9 @@ import "volontariapp/user/user.requests.proto";
 import "volontariapp/user/user.responses.proto";
 
 service UserService {
-  rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
-  rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {}
-  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {}
-  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {}
-  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {}
+  rpc GetUser (UserQuery) returns (GetUserResponse) {}
+  rpc ListUsers (ListUsersQuery) returns (ListUsersResponse) {}
+  rpc CreateUser (CreateUserCommand) returns (CreateUserResponse) {}
+  rpc UpdateUser (UpdateUserCommand) returns (UpdateUserResponse) {}
+  rpc DeleteUser (DeleteUserCommand) returns (DeleteUserResponse) {}
 }
