@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package volontariapp.user;
 
-// trigger Ci
-
 message User {
   string id = 1;
   string email = 2;
