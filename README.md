@@ -1,6 +1,23 @@
-# Proto Registry
+# 📜 Proto Registry
+
+[![Protobuf](https://img.shields.io/badge/protocol-Protobuf-green.svg)](https://developers.google.com/protocol-buffers)
+[![gRPC](https://img.shields.io/badge/technology-gRPC-blue.svg)](https://grpc.io/)
+[![GitNexus](https://img.shields.io/badge/intelligence-GitNexus-orange.svg)](https://gitnexus.vercel.app/)
 
 Central repository for all `.proto` files defining the gRPC contracts between Volontariapp microservices.
+
+---
+
+## 🧠 Code Intelligence with GitNexus
+
+This project uses **GitNexus** to maintain a live knowledge graph of the protocol definitions and their relationships.
+
+### 🚀 Visualization
+To see the codebase graph:
+1. Run `npx gitnexus serve`
+2. Visit [https://gitnexus.vercel.app/](https://gitnexus.vercel.app/)
+
+---
 
 ## 📂 Structure
 
