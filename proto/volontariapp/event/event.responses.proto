@@ -4,24 +4,41 @@ package volontariapp.event;
 
 import "volontariapp/event/event.proto";
 
-message EventResponse {
+// Unique Responses for Command Service
+message CreateEventResponse {
   Event event = 1;
 }
 
-message ListEventsResponse {
+message UpdateEventResponse {
+  Event event = 1;
+}
+
+message ChangeEventStateResponse {
+  Event event = 1;
+}
+
+message ManageRequirementsResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message GetEventResponse {
+  Event event = 1;
+}
+
+message SearchEventsResponse {
   repeated Event events = 1;
   int32 total_count = 2;
 }
 
-message RequirementListResponse {
+message ListRequirementsResponse {
   repeated Requirement requirements = 1;
 }
 
-message TagListResponse {
+message GetTagsResponse {
   repeated Tag tags = 1;
 }
 
-message ActionSuccessResponse {
-  bool success = 1;
-  string message = 2;
+message CreateTagResponse {
+  Tag tag = 1;
 }
