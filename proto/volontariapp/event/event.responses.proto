@@ -2,29 +2,26 @@ syntax = "proto3";
 
 package volontariapp.event;
 
-import "volontariapp/common/pagination.proto";
 import "volontariapp/event/event.proto";
 
-
-
-
-message GetEventResponse {
-  Event event = 1;
-}
-
-message CreateEventResponse {
-  Event event = 1;
-}
-
-message UpdateEventResponse {
+message EventResponse {
   Event event = 1;
 }
 
 message ListEventsResponse {
   repeated Event events = 1;
-  volontariapp.common.PaginationResponse pagination = 2;
+  int32 total_count = 2;
 }
 
-message DeleteEventResponse {
+message RequirementListResponse {
+  repeated Requirement requirements = 1;
+}
+
+message TagListResponse {
+  repeated Tag tags = 1;
+}
+
+message ActionSuccessResponse {
   bool success = 1;
+  string message = 2;
 }
