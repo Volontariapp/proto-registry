@@ -9,5 +9,5 @@ plugins:
       - outputJsonMethods=false
       - importSuffix=.js
       - exportCommonSymbols=false
-      - useDate=true
+      - useDate=false
       - useMinimalAdapter=true
