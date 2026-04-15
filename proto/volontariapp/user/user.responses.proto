@@ -5,15 +5,11 @@ package volontariapp.user;
 import "volontariapp/common/pagination.proto";
 import "volontariapp/user/user.proto";
 
-message GetUserResponse {
+message UserResponse {
   User user = 1;
 }
 
-message CreateUserResponse {
-  User user = 1;
-}
-
-message UpdateUserResponse {
+message SignUpResponse {
   User user = 1;
 }
 
@@ -22,6 +18,7 @@ message ListUsersResponse {
   volontariapp.common.PaginationResponse pagination = 2;
 }
 
-message DeleteUserResponse {
-  bool success = 1;
+message AuthResponse {
+  string access_token = 1;
+  string refresh_token = 2;
 }
