@@ -5,11 +5,14 @@ package volontariapp.user;
 import "volontariapp/user/user.query.proto";
 import "volontariapp/user/user.command.proto";
 import "volontariapp/user/user.responses.proto";
+import "google/protobuf/empty.proto";
 
 service UserService {
-  rpc GetUser (UserQuery) returns (GetUserResponse) {}
+  rpc GetUser (GetUserQuery) returns (UserResponse) {}
   rpc ListUsers (ListUsersQuery) returns (ListUsersResponse) {}
-  rpc CreateUser (CreateUserCommand) returns (CreateUserResponse) {}
-  rpc UpdateUser (UpdateUserCommand) returns (UpdateUserResponse) {}
-  rpc DeleteUser (DeleteUserCommand) returns (DeleteUserResponse) {}
+  rpc SignUp (SignUpCommand) returns (SignUpResponse) {}
+  rpc UpdateUser (UpdateUserCommand) returns (google.protobuf.Empty) {}
+  rpc DeleteUser (DeleteUserCommand) returns (google.protobuf.Empty) {}
+  rpc Login (LoginCommand) returns (AuthResponse) {}
+  rpc RefreshToken (RefreshTokenCommand) returns (AuthResponse) {}
 }
