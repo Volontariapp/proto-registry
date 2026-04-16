@@ -10,7 +10,8 @@ message UserResponse {
 }
 
 message SignUpResponse {
-  User user = 1;
+  UserResponse user = 1;
+  AuthResponse auth = 2;
 }
 
 message ListUsersResponse {

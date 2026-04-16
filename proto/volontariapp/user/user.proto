@@ -12,7 +12,7 @@ message Badge {
   string id = 1;
   string name = 2;
   string slug = 3;
-  string icon_path = 4;
+  optional string icon_path = 4;
   string description = 5;
   google.protobuf.Timestamp awarded_at = 6;
 }
