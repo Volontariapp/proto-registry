@@ -10,7 +10,7 @@ message UserResponse {
 }
 
 message SignUpResponse {
-  UserResponse user = 1;
+  User user = 1;
   AuthResponse auth = 2;
 }
 
@@ -19,7 +19,21 @@ message ListUsersResponse {
   volontariapp.common.PaginationResponse pagination = 2;
 }
 
+message UpdateUserResponse {
+}
+
+message DeleteUserResponse {
+}
+
 message AuthResponse {
   string access_token = 1;
   string refresh_token = 2;
+}
+
+message LoginResponse {
+  AuthResponse auth = 1;
+}
+
+message RefreshTokenResponse {
+  AuthResponse auth = 1;
 }
