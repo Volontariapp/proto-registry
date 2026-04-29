@@ -37,35 +37,3 @@ message LoginResponse {
 message RefreshTokenResponse {
   AuthResponse auth = 1;
 }
-
-message CreateBadgeResponse {
-  Badge badge = 1;
-}
-
-message DeleteBadgeResponse {
-}
-
-message UpdateBadgeResponse {
-  Badge badge = 1;
-}
-
-message GetBadgeResponse {
-  Badge badge = 1;
-}
-
-message ListBadgesResponse {
-  repeated Badge badges = 1;
-  volontariapp.common.PaginationResponse pagination = 2;
-}
-
-message IncrementImpactScoreResponse {
-  int32 new_total_impact_score = 1;
-}
-
-message AddBadgeToUserResponse {
-  User user = 1;
-}
-
-message RemoveBadgeFromUserResponse {
-  User user = 1;
-}
