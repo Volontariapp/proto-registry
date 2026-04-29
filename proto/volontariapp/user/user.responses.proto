@@ -61,6 +61,10 @@ message BadgeResponse {
   Badge badge = 1;
 }
 
+message GetBadgeBySlugResponse {
+  Badge badge = 1;
+}
+
 message ListBadgesResponse {
   repeated Badge badges = 1;
   volontariapp.common.PaginationResponse pagination = 2;
