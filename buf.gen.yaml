@@ -11,3 +11,4 @@ plugins:
       - exportCommonSymbols=false
       - useDate=false
       - useMinimalAdapter=true
+      - addMetadata=true
