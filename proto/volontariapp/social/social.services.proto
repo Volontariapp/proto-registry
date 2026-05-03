@@ -20,6 +20,10 @@ service RelationshipCommandService {
   rpc DeleteFollowUser(DeleteFollowUserCommand) returns (DeleteFollowUserResponse);
   rpc PostBlockUser(PostBlockUserCommand) returns (PostBlockUserResponse);
   rpc DeleteBlockUser(DeleteBlockUserCommand) returns (DeleteBlockUserResponse);
+  rpc AdminPostFollowUser(AdminPostFollowUserCommand) returns (PostFollowUserResponse);
+  rpc AdminDeleteFollowUser(AdminDeleteFollowUserCommand) returns (DeleteFollowUserResponse);
+  rpc AdminPostBlockUser(AdminPostBlockUserCommand) returns (PostBlockUserResponse);
+  rpc AdminDeleteBlockUser(AdminDeleteBlockUserCommand) returns (DeleteBlockUserResponse);
 }
 
 service RelationshipQueryService {
@@ -27,6 +31,10 @@ service RelationshipQueryService {
   rpc GetMyFollowers(GetMyFollowersQuery) returns (GetMyFollowersResponse);
   rpc GetMyBlocks(GetMyBlocksQuery) returns (GetMyBlocksResponse);
   rpc GetWhoBlockedMe(GetWhoBlockedMeQuery) returns (GetWhoBlockedMeResponse);
+  rpc AdminGetMyFollows(AdminGetMyFollowsQuery) returns (GetMyFollowsResponse);
+  rpc AdminGetMyFollowers(AdminGetMyFollowersQuery) returns (GetMyFollowersResponse);
+  rpc AdminGetMyBlocks(AdminGetMyBlocksQuery) returns (GetMyBlocksResponse);
+  rpc AdminGetWhoBlockedMe(AdminGetWhoBlockedMeQuery) returns (GetWhoBlockedMeResponse);
 }
 
 service PublicationCommandService {
@@ -34,22 +42,29 @@ service PublicationCommandService {
   rpc DeletePostNode(DeleteSocialPostCommand) returns (DeletePostNodeResponse);
   rpc PostUserOwn(PostUserOwnCommand) returns (PostUserOwnResponse);
   rpc DeleteUserOwn(DeleteUserOwnCommand) returns (DeleteUserOwnResponse);
+  rpc AdminPostUserOwn(AdminPostUserOwnCommand) returns (PostUserOwnResponse);
+  rpc AdminDeleteUserOwn(AdminDeleteUserOwnCommand) returns (DeleteUserOwnResponse);
 }
 
 service PublicationQueryService {
   rpc GetPostNode(GetSocialPostQuery) returns (GetPostNodeResponse);
   rpc GetUserPosts(GetUserPostsQuery) returns (GetUserPostsResponse);
   rpc GetFeed(GetFeedQuery) returns (GetFeedResponse);
+  rpc AdminGetUserPosts(AdminGetUserPostsQuery) returns (GetUserPostsResponse);
+  rpc AdminGetFeed(AdminGetFeedQuery) returns (GetFeedResponse);
 }
 
 service InteractionCommandService {
   rpc PostLikePost(PostLikePostCommand) returns (PostLikePostResponse);
   rpc DeleteLikePost(DeleteLikePostCommand) returns (DeleteLikePostResponse);
+  rpc AdminPostLikePost(AdminPostLikePostCommand) returns (PostLikePostResponse);
+  rpc AdminDeleteLikePost(AdminDeleteLikePostCommand) returns (DeleteLikePostResponse);
 }
 
 service InteractionQueryService {
   rpc GetUserLikes(GetUserLikesQuery) returns (GetUserLikesResponse);
   rpc GetPostLikers(GetPostLikersQuery) returns (GetPostLikersResponse);
+  rpc AdminGetUserLikes(AdminGetUserLikesQuery) returns (GetUserLikesResponse);
 }
 
 service ParticipationCommandService {
@@ -61,6 +76,10 @@ service ParticipationCommandService {
   rpc DeleteUserParticipateEvent(DeleteUserParticipateEventCommand) returns (DeleteUserParticipateEventResponse);
   rpc PostUserWishEvent(PostUserWishEventCommand) returns (PostUserWishEventResponse);
   rpc DeleteUserWishEvent(DeleteUserWishEventCommand) returns (DeleteUserWishEventResponse);
+  rpc AdminPostUserParticipateEvent(AdminPostUserParticipateEventCommand) returns (PostUserParticipateEventResponse);
+  rpc AdminDeleteUserParticipateEvent(AdminDeleteUserParticipateEventCommand) returns (DeleteUserParticipateEventResponse);
+  rpc AdminPostUserWishEvent(AdminPostUserWishEventCommand) returns (PostUserWishEventResponse);
+  rpc AdminDeleteUserWishEvent(AdminDeleteUserWishEventCommand) returns (DeleteUserWishEventResponse);
 }
 
 service ParticipationQueryService {
@@ -69,6 +88,9 @@ service ParticipationQueryService {
   rpc GetUserParticipateEvent(GetUserParticipateEventQuery) returns (GetUserParticipateEventResponse);
   rpc GetUserWishEvent(GetUserWishEventQuery) returns (GetUserWishEventResponse);
   rpc GetEventParticipants(GetEventParticipantsQuery) returns (GetEventParticipantsResponse);
+  rpc AdminGetUserEvent(AdminGetUserEventQuery) returns (GetUserEventResponse);
+  rpc AdminGetUserParticipateEvent(AdminGetUserParticipateEventQuery) returns (GetUserParticipateEventResponse);
+  rpc AdminGetUserWishEvent(AdminGetUserWishEventQuery) returns (GetUserWishEventResponse);
 }
 
 service EventPostLinkCommandService {
