@@ -16,7 +16,6 @@ message AdminCreatePostCommand {
 }
 
 message UpdatePostCommand {
-  string id = 1;
   Post post = 2;
   repeated string update_mask = 3;
 }
