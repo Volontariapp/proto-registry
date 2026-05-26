@@ -10,7 +10,7 @@ on:
 jobs:
   call-emergency-reset:
     if: github.event.label.name == 'reset'
-    uses: Volontariapp/ci-tools/.github/workflows/emergency-reset-proto.yml@main
+    uses: Volontariapp/ci-tools/.github/workflows/proto-reset.yml@main
     with:
       proto_repository: "Volontariapp/proto-registry"
       npm_repository: "Volontariapp/npm-packages"
