@@ -8,5 +8,5 @@ on:
 
 jobs:
   sync:
-    uses: Volontariapp/ci-tools/.github/workflows/proto/sync.yml@main
+    uses: Volontariapp/ci-tools/.github/workflows/proto-sync.yml@main
     secrets: inherit
