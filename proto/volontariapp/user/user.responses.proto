@@ -10,7 +10,7 @@ message UserResponse {
 }
 
 message PublicUserResponse {
-  UserPublic userPublic = 1;
+  UserPublic user_public = 1;
 }
 
 message AdminUserResponse {
