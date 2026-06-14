@@ -9,6 +9,10 @@ message UserResponse {
   User user = 1;
 }
 
+message PublicUserResponse {
+  UserPublic userPublic = 1;
+}
+
 message AdminUserResponse {
   User user = 1;
 }
