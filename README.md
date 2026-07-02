@@ -1,172 +1,75 @@
-# 📜 Proto Registry
+# Proto Registry
 
-[![Protobuf](https://img.shields.io/badge/protocol-Protobuf-green.svg)](https://developers.google.com/protocol-buffers)
-[![gRPC](https://img.shields.io/badge/technology-gRPC-blue.svg)](https://grpc.io/)
-[![GitNexus](https://img.shields.io/badge/intelligence-GitNexus-orange.svg)](https://gitnexus.vercel.app/)
+## Project Overview & Value Proposition
+Le dépôt `proto-registry` agit comme la Single Source of Truth (SSOT) pour l'ensemble des contrats d'interface de la plateforme Volontariapp. Son rôle central est de définir de manière formelle et agnostique la communication inter-services via gRPC et Protocol Buffers. 
 
-Central repository for all `.proto` files defining the gRPC contracts between Volontariapp microservices.
+La proposition de valeur de ce registre repose sur la prévention de la dérive des API (API Drift). En interdisant les modifications locales de contrats au sein des microservices individuels, l'architecture garantit une gouvernance stricte des schémas de données. Toute altération de payload, d'entité métier ou de service gRPC doit être introduite, validée et versionnée au sein de ce registre central.
 
----
+## Key Features
+- **Gouvernance Centralisée des Schémas** : Définition de toutes les structures de données, requêtes et réponses gRPC.
+- **Ségrégation CQRS** : Séparation stricte des intentions de lecture (Queries) et d'écriture (Commands) dans les définitions de contrats.
+- **Validation Statique Avancée** : Vérification systématique du linting et détection automatisée des ruptures de compatibilité ascendante (Breaking Changes).
+- **Génération de Code Automatisée** : Transformation des fichiers `.proto` en interfaces TypeScript et décorateurs spécifiques au framework (NestJS) via `ts-proto`.
+- **Distribution GitOps** : Publication automatisée des contrats compilés vers le registre de dépendances (`npm-packages`) via Pull Request.
 
-## 🧠 Code Intelligence with GitNexus
+## Tech Stack & Dependencies
 
-This project uses **GitNexus** to maintain a live knowledge graph of the protocol definitions and their relationships.
+| Technologie | Catégorie | Usage / Rôle |
+| :--- | :--- | :--- |
+| **Protocol Buffers (v3)** | Sérialisation | Langage de définition d'interface (IDL) pour les contrats de données. |
+| **gRPC** | Transport | Framework RPC de haute performance pour la communication inter-services. |
+| **Buf** | Outillage | CLI de linting, de vérification de compatibilité et de build de schémas protobuf. |
+| **ts-proto** | Génération de Code | Plugin de compilation générant des interfaces TypeScript natives et compatibles NestJS. |
+| **GitHub Actions** | CI/CD | Automatisation de la validation (CI) et de la propagation (CD) des contrats générés. |
 
-### 🚀 Visualization
-To see the codebase graph:
-1. Run `npx gitnexus serve`
-2. Visit [https://gitnexus.vercel.app/](https://gitnexus.vercel.app/)
+## Getting Started
 
----
+### Prérequis
+- **Buf CLI** installé sur votre machine (`brew install bufbuild/buf/buf` ou via npm).
+- Un environnement compatible UNIX (Linux/macOS) pour l'exécution des scripts de génération locaux.
+- **Node.js** (>= 18.x) si vous souhaitez tester le cycle de compilation complet avec des dépendances locales.
 
-## 📂 Structure
-
-```
-proto/volontariapp/
-├── common/
-│   ├── pagination.proto        # PaginationRequest / PaginationResponse
-│   └── timestamp.proto         # DateRange (wraps google.protobuf.Timestamp)
-├── event/
-│   ├── event.proto             # Event entity
-│   ├── event.command.proto     # Write operations (CreateEventRequest, etc.)
-│   ├── event.query.proto       # Read operations (GetEventRequest, etc.)
-│   ├── event.responses.proto   # Shared response messages
-│   └── event.services.proto    # EventService RPC definitions
-├── post/
-│   ├── post.proto              # Post entity
-│   ├── post.command.proto
-│   ├── post.query.proto
-│   ├── post.responses.proto
-│   └── post.services.proto     # PostService RPC definitions
-└── user/
-    ├── user.proto              # User entity
-    ├── user.command.proto
-    ├── user.query.proto
-    ├── user.responses.proto
-    └── user.services.proto     # UserService RPC definitions
-```
-
-## 🎯 Conventions
-
-### Package Naming
-
-All proto packages follow the pattern: `volontariapp.<domain>`
-
-```protobuf
-package volontariapp.user;
-```
-
-### CQRS Pattern
-
-Each domain is organized following the **Command Query Responsibility Segregation (CQRS)** pattern to decouple read and write operations.
-
-### File Organization
-
-Each domain has **5 files** following dot notation:
-
-| File                       | Contains                                    |
-| -------------------------- | ------------------------------------------- |
-| `<domain>.proto`           | Entity message (`User`, `Event`, `Post`)    |
-| `<domain>.command.proto`   | Command requests (Create, Update, Delete)   |
-| `<domain>.query.proto`     | Query requests (Get, List, Search)          |
-| `<domain>.responses.proto` | Response messages (`GetUserResponse`, etc.) |
-| `<domain>.services.proto`  | gRPC `service` definition with RPCs         |
-
-### Naming Conventions
-
-| Element | Convention                              | Example                             |
-| ------- | --------------------------------------- | ----------------------------------- |
-| Package | `lowercase.dot.separated`               | `volontariapp.user`                 |
-| Service | `PascalCase` + `Service` suffix         | `UserService`                       |
-| RPC     | `PascalCase` verb                       | `GetUser`, `CreateUser`             |
-| Message | `PascalCase`                            | `UserResponse`, `CreateUserRequest` |
-| Field   | `snake_case`                            | `first_name`, `created_at`          |
-| Enum    | `PascalCase` name, `UPPER_SNAKE` values | `UserRole`, `USER_ROLE_ADMIN`       |
-
-## ⚙️ Code Generation
-
-### buf.gen.yaml
-
-TypeScript types are generated using [ts-proto](https://github.com/stephenh/ts-proto) with the following options:
-
-| Option                      | Purpose                                               |
-| --------------------------- | ----------------------------------------------------- |
-| `nestJs=true`               | Generates NestJS-compatible service interfaces        |
-| `useDate=true`              | Maps `google.protobuf.Timestamp` to native `Date`     |
-| `importSuffix=.js`          | ESM-compatible imports for `nodenext` resolution      |
-| `exportCommonSymbols=false` | Prevents duplicate `protobufPackage` export conflicts |
-| `outputClientImpl=false`    | No gRPC client stubs (services handle this)           |
-
-### Generated output
-
-Running `buf generate` produces TypeScript files in `gen/ts/` with:
-
-- Entity interfaces (`Event`, `Post`, `User`)
-- Request/Response interfaces
-- NestJS service interfaces (`EventServiceClient`, `EventServiceController`)
-- NestJS decorator functions (`EventServiceControllerMethods()`)
-- Service name constants (`EVENT_SERVICE_NAME`)
-
-## 🔄 CI/CD Pipeline
-
-### On Pull Request
-
-1. **check-proto-changes** — detects if any `.proto` files were modified
-2. **buf lint** — runs only if proto files changed
-
-### On Push to Main
-
-1. **check-proto-changes** — detects if any `.proto` files were modified
-2. **buf lint** — runs only if proto files changed
-3. **sync** — generates TypeScript types and creates a PR on `npm-packages` with updated `@volontariapp/contracts`
-
-### 🚨 Emergency Reset
-
-If the automated sync fails or if the `npm-packages` repository gets out of sync, you can trigger a full recovery:
-
-1. Create a PR from a branch starting with `debug/` (e.g., `debug/fix-sync`) targeting `main`.
-2. Add the `reset` label to the PR.
-3. This triggers the **Emergency Reset Proto Sync** workflow, which:
-   - Performs a full `buf generate`.
-   - Fixes ESM imports for `protobufjs`.
-   - Forces a clean sync of all `.proto` files to the contracts package.
-   - Performs a clean sync of all domain TypeScript types.
-   - Creates a fresh PR on `npm-packages` to restore consistency.
-
-### Manual Trigger
-
-Use `workflow_dispatch` on the GitHub Actions tab to trigger the standard sync pipeline manually.
-
-## 🛠️ Development
-
-### Linting
+### Installation et Configuration Locale
+Clonez le dépôt et vérifiez l'installation de Buf :
 
 ```bash
-buf lint
+git clone git@github.com:volontariapp/proto-registry.git
+cd proto-registry
+buf --version
 ```
 
-### Generate TypeScript locally
+Aucune variable d'environnement (`.env`) n'est requise pour l'exécution locale des outils de linting ou de génération de ce dépôt.
+
+### Commandes de Build et Génération
+Pour générer les interfaces TypeScript localement (les artefacts seront placés dans le répertoire `gen/ts`) :
 
 ```bash
 buf generate
 ```
 
-### Breaking Change Detection
+## Testing
+
+La stratégie de test dans ce registre repose sur l'analyse statique des schémas et la vérification de la compatibilité des contrats.
+
+### Linting des Contrats
+Pour vérifier la conformité syntaxique et le respect des conventions de nommage :
+
+```bash
+buf lint
+```
+
+### Vérification de Rétrocompatibilité (Breaking Changes)
+Pour s'assurer qu'aucune modification ne brise les contrats existants pour les clients en production, testez vos changements contre la branche principale :
 
 ```bash
 buf breaking --against '.git#branch=main'
 ```
 
-## 🔗 Usage
+## CI/CD & Deployment
 
-This repository is consumed as a **Git submodule** by each service and by `npm-packages`.
+Le cycle de vie du déploiement est entièrement orchestré par GitHub Actions, implémentant une approche GitOps pour la distribution des contrats.
 
-The generated TypeScript types are published as `@volontariapp/contracts` via the automated sync pipeline.
-
-```typescript
-import {
-  User,
-  CreateUserRequest,
-  UserServiceController,
-} from "@volontariapp/contracts";
-```
+1. **Validation Continue (CI)** : À chaque Pull Request, les workflows exécutent `buf lint` et `buf breaking`.
+2. **Synchronisation Automatisée (CD)** : Lors du merge sur la branche `main` (`sync-to-npm.yml`), le CI/CD génère les artefacts TypeScript.
+3. **Propagation vers npm-packages** : Le pipeline ouvre automatiquement une Pull Request sur le monorepo `npm-packages` pour mettre à jour les paquets internes (`@volontariapp/contracts` et `@volontariapp/contracts-nest`).
+4. **Plan de Remédiation** : En cas de désynchronisation entre le registre et le monorepo, le workflow `emergency-reset.yml` permet une regénération complète (clean state) pour restaurer l'intégrité de la distribution.
