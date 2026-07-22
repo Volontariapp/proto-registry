@@ -2,3 +2,4 @@ gen/
 .gitnexus
 .idea/
 *DS*
+graphify-out/
