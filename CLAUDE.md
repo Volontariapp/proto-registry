@@ -1,62 +1,56 @@
-<!-- gitnexus:start -->
-# 🧠 GitNexus — Code Intelligence
+# proto-registry
 
-This project is indexed by GitNexus as **proto-registry**. Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+SSOT des contrats gRPC de Volontariapp. `.proto` = source de vérité, jamais modifiés
+depuis les microservices.
 
-> [!IMPORTANT]
-> If any tool warns that the index is stale, run `npx gitnexus analyze` immediately.
+## Structure de proto/volontariapp/
 
-## 🚀 Quick Actions
+- `common/` : `geo.proto`, `pagination.proto`, `timestamp.proto` — types partagés
+  (pas de service, que des messages).
+- `{post,user,social,event}/` : un domaine = 5 fichiers CQRS
+  - `<domain>.proto` — entité pure (ex: `Event`, `User`)
+  - `<domain>.command.proto` — requêtes d'écriture (Create/Update/Delete)
+  - `<domain>.query.proto` — requêtes de lecture (Get/List)
+  - `<domain>.responses.proto` — DTO de réponse
+  - `<domain>.services.proto` — définitions RPC gRPC
+- `post/` a en plus `comment.proto`, `comment.command.proto`, `comment.query.proto`,
+  `comment.responses.proto` (pas de `comment.services.proto` : les RPC comment sont
+  exposés via `post.services.proto`).
 
-| Task | Command / Resource |
-| :--- | :--- |
-| **Visualize Graph** | [https://gitnexus.vercel.app/](https://gitnexus.vercel.app/) (Requires `npx gitnexus serve`) |
-| **Impact Analysis** | `npx gitnexus impact <symbol>` |
-| **Code Search** | `npx gitnexus query "<concept>"` |
-| **Symbol Context** | `npx gitnexus context <symbol>` |
+Ne jamais éditer les modules par ailleurs — nouveau champ/message va dans le fichier
+du bon type (entity/command/query/responses/services) du domaine concerné.
 
-## 🛠️ Mandatory Workflows
+## Génération de code
 
-### 1. Pre-Edit: Impact Analysis
-**NEVER** modify a public function, class, or method without running impact analysis first.
-*   **Action**: Run `gitnexus_impact({target: "SymbolName", direction: "upstream"})`.
-*   **Rule**: Report the blast radius (direct callers, affected processes) to the user before proceeding.
+Un seul plugin configuré dans `buf.gen.yaml` : `ts_proto` (nom local
+`protoc-gen-ts_proto`), sortie dans `gen/ts/`, options clés : `nestJs=true`,
+`outputClientImpl=false`, `useDate=false`, `addMetadata=true`.
 
-### 2. Pre-Commit: Verification
-**MUST** verify that your changes only affect the intended symbols.
-*   **Action**: Run `gitnexus_detect_changes()`.
-*   **Rule**: If unexpected files are impacted, investigate before committing.
-
-### 3. Exploring & Refactoring
-*   **Search**: Use `gitnexus_query` to find execution flows instead of grepping.
-*   **Rename**: Use `gitnexus_rename` instead of find-and-replace to maintain graph integrity.
-
-## 📊 Impact Risk Levels
-
-| Level | Depth | Meaning | Required Action |
-| :--- | :---: | :--- | :--- |
-| **CRITICAL** | d=1 | Direct callers/importers will break | Update all dependents |
-| **HIGH** | d=2 | Indirect dependencies likely affected | Extensive testing required |
-| **LOW** | d=3+ | Transitive impacts possible | Verify critical paths |
-
-## 🔄 Keeping the Index Fresh
-
-After major changes or commits, refresh the knowledge graph:
 ```bash
-npx gitnexus analyze
+buf generate   # régénère gen/ts/ à partir de proto/
+buf lint       # vérifie les conventions (voir buf.yaml)
+buf breaking --against '.git#branch=main'   # détecte les ruptures de compat
 ```
-*Add `--embeddings` if you need semantic search capabilities.*
 
-## 📖 Skill Reference
+Les artefacts générés sont ensuite publiés vers `npm-packages`
+(`@volontariapp/contracts`, `@volontariapp/contracts-nest`) via CI, pas de publication
+manuelle depuis ce repo.
 
-For detailed workflows, refer to the following local instruction files:
-*   [Architecture Exploring](.claude/skills/gitnexus/gitnexus-exploring/SKILL.md)
-*   [Impact Analysis](.claude/skills/gitnexus/gitnexus-impact-analysis/SKILL.md)
-*   [Debugging Flows](.claude/skills/gitnexus/gitnexus-debugging/SKILL.md)
-*   [Safe Refactoring](.claude/skills/gitnexus/gitnexus-refactoring/SKILL.md)
-*   [CLI Guide & Wiki](.claude/skills/gitnexus/gitnexus-cli/SKILL.md)
+## Lint (buf.yaml)
 
-<!-- gitnexus:end -->
+`lint.use: STANDARD` avec exceptions explicites :
+`PACKAGE_VERSION_SUFFIX`, `FILE_LOWER_SNAKE_CASE`, `RPC_REQUEST_STANDARD_NAME`,
+`RPC_RESPONSE_STANDARD_NAME` désactivées — donc pas besoin de suffixer les packages
+par une version, les noms de fichiers multi-mots (`event.command.proto`) sont
+acceptés, et les requêtes/réponses RPC n'ont pas à suivre le nommage standard
+buf (`MethodNameRequest`/`Response`).
+
+## Workflow de changement de contrat
+
+Voir `.agents/skills/global/proto-contract-evolution/SKILL.md` pour l'ordre de
+rollout (proto-registry -> npm-packages -> microservices) et l'usage de
+`buf breaking`.
+
 ## 🚀 RTK - Rust Token Killer (Optimized)
 All shell commands (`git`, `npm`, `jest`, etc.) are automatically proxied via `rtk` for 80% token savings.
 - **Direct Usage:** `rtk gain` (analytics), `rtk discover` (missed savings).
