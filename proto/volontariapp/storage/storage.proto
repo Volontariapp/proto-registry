@@ -4,7 +4,7 @@ package volontariapp.storage;
 
 import "google/protobuf/timestamp.proto";
 
-enum FileStatusProto {
+enum FileStatus {
   FILE_STATUS_UNSPECIFIED = 0;
   FILE_STATUS_PENDING = 1;
   FILE_STATUS_ATTACHED = 2;
@@ -12,7 +12,7 @@ enum FileStatusProto {
   FILE_STATUS_DELETED = 4;
 }
 
-enum EntityTypeProto {
+enum EntityType {
   ENTITY_TYPE_UNSPECIFIED = 0;
   ENTITY_TYPE_POST = 1;
   ENTITY_TYPE_USER_AVATAR = 2;
@@ -25,8 +25,8 @@ message FileMetadata {
   string owner_id = 2;
   string object_key = 3;
   string mime_type = 4;
-  FileStatusProto status = 5;
-  optional EntityTypeProto entity_type = 6;
+  FileStatus status = 5;
+  optional EntityType entity_type = 6;
   optional string entity_id = 7;
   bool is_public = 8;
   google.protobuf.Timestamp upload_expires_at = 9;
