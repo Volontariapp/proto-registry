@@ -1,4 +1,5 @@
 name: Sync Protobuf to NPM
+
 on:
   push:
     branches:
@@ -10,3 +11,16 @@ jobs:
   sync:
     uses: Volontariapp/ci-tools/.github/workflows/proto-sync.yml@main
     secrets: inherit
+
+  deploy-push:
+    name: Deploy Repo Submodule Push (proto-registry)
+    needs: [sync]
+    runs-on: ubuntu-latest
+    if: always() && github.ref == 'refs/heads/main' && (needs.sync.result == 'success' || needs.sync.result == 'skipped')
+    steps:
+      - name: Update Deploy Submodule
+        uses: Volontariapp/ci-tools/.github/actions/update-deploy@main
+        with:
+          service: proto-registry
+          sha: ${{ github.sha }}
+          org-repo-token: ${{ secrets.ORG_REPO_TOKEN }}
